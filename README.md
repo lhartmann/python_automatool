@@ -23,7 +23,7 @@ Automatons are defined in spreadsheets representing the transition table:
 
 # Reading and writing
 
-```
+```python
 a = Automaton()                   # Creates an instace
 a.read_ods('file.ods', 'Sheet 1') # Loads from file
 a.write_dot('file.dot')           # Saves for use with graphviz
@@ -35,16 +35,74 @@ b = a.copy()                      # Creates an independent copy
 
 **Accessible automaton**: Returns a new automaton containing only states reachable from the initial one.
 
-```b = a.Ac()```
+```python
+b = a.Ac()
+```
 
 **Co-accessible automaton**: Return a new automaton containing only states that can reach a marked state.
 
-```b = a.CoAc()```
+```python
+b = a.CoAc()
+```
 
 **Trim automaton**: Returns a new automaton containing only states that are both accessible and co-accessible.
 
-```b = a.trim()```
+```python
+b = a.trim()
+```
 
-**Cross-parallel, or fully parallel**: 
+**Cross-parallel, or fully-parallel**: Returns an automata where any events can only happen if exist and enabled on both sources. Private events existing on a single source are removed and blocked.
 
-```c = a.cross(b)```
+```python
+c = a.cross(b) # As a method
+m = n * o * p  # As an expression
+```
+
+**Parallel**: Returns an automata where common events can only happen if exist and enabled on both sources. Private events existing on a single source are preserved, and do not affect the other automaton.
+
+```python
+c = a.parallel(b) # As a method
+m = n | o | p     # As an expression
+```
+
+**Remove events**: Makes removed events non-observable, replacing them with the null-word. Generally result in a non-deterministic automaton.
+
+```python
+a.remove_events(["e0", "e1"]) # Changes in-place
+```
+
+**Remove states**: Removes states from an automaton. May make some states inaccessible.
+
+```python
+a.remove_states(["x0", "x1"])  # Changes in-place
+```
+
+**Deterministic equivalent**: Evaluates the automaton taking into considerations all null-word events, and events that can lead to multiple states. Returns an automaton that models the uncertainty between states A and B as a new state AB.
+
+```python
+print(a.is_detetrministic()) # False
+b = a.deterministic_equivalent()
+print(b.is_detetrministic()) # True
+```
+
+**Prioritize event**: When describing software controllers, an action event will always take place before any other input check. Priorizing an event will ensure that, on states where it is enabled, it is the only one enabled. Useful fom simplifying analysis, as it may reduce the number of accessible states.
+
+```python
+a.priotritize('e6') # Changes in-place
+```
+
+**Rename states**: State names are usally long after composition operations or deterministic-equivalent is obtained. States can be renamed by passing a function or a dictionary as a mapper.
+
+```python
+# On parallel composition names are joined with '|'
+m = a | b | c
+# Using a dictionary (changes in-place)
+m.rename_states({
+    'a0|b1|c2': 's012',
+    'a0|b3|c1': 's031'
+})
+# Using a callable lambda (changes in-place)
+m.rename_states(lambda s : s.replace('|', ''))
+
+```
+
