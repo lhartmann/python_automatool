@@ -85,7 +85,7 @@ b = a.deterministic_equivalent()
 print(b.is_detetrministic()) # True
 ```
 
-**Prioritize event**: When describing software controllers, an action event will always take place before any other input check. Priorizing an event will ensure that, on states where it is enabled, it is the only one enabled. Useful fom simplifying analysis, as it may reduce the number of accessible states.
+**Prioritize event**: When describing software controllers, an action event will always take place before any other input check, in other words, it will be fired immediately when enabled. Priorizing an event will ensure that, on states where it is enabled, it is the only one enabled. Useful fom simplifying analysis, as it may reduce the number of accessible states.
 
 ```python
 a.priotritize('e6') # Changes in-place
