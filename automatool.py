@@ -126,7 +126,7 @@ class Automaton:
 			raise Exception(f"F({x},{e}) should return exactly one state.")
 		return Xr.pop()
 	
-	def removeStates(self, Xd):
+	def remove_states(self, Xd):
 		# Remove deleted states and all transitions FROM them
 		for x in Xd:
 			self._X.pop(x)
@@ -143,7 +143,7 @@ class Automaton:
 		return self
 	
 	# Remove events replacig with empty string, may result in non-deterministic automaton
-	def removeEvents(self, Ed):
+	def remove_events(self, Ed):
 		# Adds empty transitions for uniformity
 		for x in self._X:
 			if "" not in self._F[x]:
