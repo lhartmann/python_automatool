@@ -3,11 +3,15 @@ Automaton build and analysis tooling for python.
 
 # Quickstart
 
-```
+On a Linux shell, do:
+
+```bash
 git clone https://github.com/lhartmann/python_automatool automatool
 cp automatool/examples/01-basic.py .
 python3 01-basic.py
 ```
+
+Then check the several `.dot` outputs using xdot.
 
 # Defining Automatons
 
