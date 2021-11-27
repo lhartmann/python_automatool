@@ -317,7 +317,7 @@ class Automaton:
 				snx = state_namer(x)
 				if snx in r._F:
 					continue
-				print(f"Adding state {snx}:")
+				#print(f"Adding state {snx}:")
 				r._F[snx] = {}
 				for e in self.L(x)-{""}:
 					tx = self.FFF(x, e)
@@ -325,7 +325,7 @@ class Automaton:
 					r._E[e] = self._E[e]
 					r._F[snx][e] = {sntx}
 					addnext.append(tx)
-					print(f"  F[...][{e}] -> {sntx}")
+					#print(f"  F[...][{e}] -> {sntx}")
 					
 					##########
 			add = addnext
