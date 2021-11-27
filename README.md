@@ -99,7 +99,7 @@ print(b.is_detetrministic()) # True
 **Prioritize event**: When describing software controllers, an action event will always take place before any other input check, in other words, it will be fired immediately when enabled. Priorizing an event will ensure that, on states where it is enabled, it is the only one enabled. Useful fom simplifying analysis, as it may reduce the number of accessible states.
 
 ```python
-a.priotritize('e6') # Changes in-place
+a.prioritize('e6') # Changes in-place
 ```
 
 **Rename states**: State names are usally long after composition operations or deterministic-equivalent is obtained. States can be renamed by passing a function or a dictionary as a mapper.
