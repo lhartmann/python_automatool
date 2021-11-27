@@ -1,6 +1,14 @@
 # python_automatool
 Automaton build and analysis tooling for python.
 
+# Quickstart
+
+```
+git clone https://github.com/lhartmann/python_automatool automatool
+cp automatool/examples/01-basic.py .
+python3 01-basic.py
+```
+
 # Defining Automatons
 
 Automatons are defined in spreadsheets representing the transition table:
