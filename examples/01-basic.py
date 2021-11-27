@@ -2,8 +2,7 @@
 
 from automatool import Automaton
 
-a = Automaton()
-a.read_csv("automatool/examples/automaton/a.csv")
+a = Automaton.read_csv("automatool/examples/automaton/a.csv")
 a.write_dot("a.dot")
 
 b = a.Ac()

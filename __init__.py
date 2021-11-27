@@ -41,45 +41,49 @@ class Automaton:
 			add = addnext - Xr
 		return Xr
 	
-	def read_csv(self, filename):
+	@staticmethod
+	def read_csv(filename):
 		table = pd.read_csv(filename, sep='\t', header=None)
 		table = table.fillna("")
-		self.parse(table)
+		return Automaton.parse(table)
 	
-	def read_ods(self, filename, sheet=None):
+	@staticmethod
+	def read_ods(filename, sheet=None):
 		table = read_ods(filename, sheet or 0, headers=False)
-		self.parse(table)
+		return Automaton.parse(table)
 	
 	def copy(self): 
 		return copy.deepcopy(self)
 	
-	def parse(self, table):
+	@staticmethod
+	def parse(table):
+		r = Automaton()
 		Ne = int(len(table.columns)-2)
 		Ns = int(table.size / (Ne+2) - 2)
 	
-		self._x0 = table.iat[0,0]
-		self._X = {}
-		self._E = {}
-		self._F = {} # F[s][e] -> S
+		r._x0 = table.iat[0,0]
+		r._X = {}
+		r._E = {}
+		r._F = {} # F[s][e] -> S
 		
-		if isinstance(self._x0, str):
-			self._x0 = self._x0.split(',')
+		if isinstance(r._x0, str):
+			r._x0 = r._x0.split(',')
 		else:
-			self._x0 = set({self._x0})
+			r._x0 = set({r._x0})
 	
 		for s in range(Ns):
 			state_name = table.iat[s+2, 0]
 			state_prop = table.iat[s+2, 1] or ""
-			self._X[state_name] = state_prop
+			r._X[state_name] = state_prop
 	
 		for e in range(Ne):
 			event_name = table.iat[0, e+2]
 			event_prop = table.iat[1, e+2] or ""
-			self._E[event_name] = event_prop
+			r._E[event_name] = event_prop
 		
 		for s in range(Ns):
 			state = table.iat[s+2, 0]
-			self._F[state] = {}
+			r._F[state] = {}
 			for e in range(Ne):
 				event = table.iat[0, e+2]
 				
@@ -89,9 +93,10 @@ class Automaton:
 					continue
 				
 				if isinstance(dest, str):
-					self._F[state][event] = set(dest.split(','))
+					r._F[state][event] = set(dest.split(','))
 				else:
-					self._F[state][event] = set({ dest })
+					r._F[state][event] = set({ dest })
+		return r
 	
 	def X(self):
 		return set(self._F.keys())

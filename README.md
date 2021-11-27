@@ -36,8 +36,7 @@ Automatons are defined in spreadsheets representing the transition table:
 # Reading and writing
 
 ```python
-a = Automaton()                   # Creates an instace
-a.read_ods('file.ods', 'Sheet 1') # Loads from file
+a = Automaton.read_ods('file.ods', 'Sheet 1') # Load from file
 a.write_dot('file.dot')           # Saves for use with graphviz
 a.write_plantuml('file.uml')      # Saves for use with PLantUML
 b = a.copy()                      # Creates an independent copy
