@@ -48,7 +48,7 @@ class Automaton:
 	
 	@staticmethod
 	def read_ods(filename, sheet=None):
-		table = read_excel(filename, sheet or 0, engine="ods", headers=False)
+		table = pd.read_excel(filename, sheet or 0, engine="ods", headers=False)
 		return Automaton.parse(table)
 	
 	def copy(self): 
