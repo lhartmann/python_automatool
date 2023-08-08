@@ -2,21 +2,54 @@
 
 from automatool import Automaton
 
+print("Loading automaton...")
 a = Automaton.read_csv("automatool/examples/automaton/a.csv")
+
+print("  Set of states, X...:", a.X())
+print("  Marked states, Xm..:", a.Xm())
+print("  Set of events, E...:", a.E())
+print("  Arcs...............:", a.count_arcs())
+print("  Writing to a.dot...")
 a.write_dot("a.dot")
 
+print("Calculate accesssible part...")
 b = a.Ac()
+print("  Set of states, X...:", b.X())
+print("  Set of events, E...:", b.E())
+print("  Arcs...............:", b.count_arcs())
+print("  Writing to a_ac.dot...")
 b.write_dot("a_ac.dot")
 
+print("Calculate co-accesssible part...")
 b = a.CoAc()
+print("  Set of states, X...:", b.X())
+print("  Set of events, E...:", b.E())
+print("  Arcs...............:", b.count_arcs())
+print("  Writing to a_coac.dot...")
 b.write_dot("a_coac.dot")
 
+print("Calculate trim part...")
 b = a.trim()
+print("  Set of states, X...:", b.X())
+print("  Set of events, E...:", b.E())
+print("  Arcs...............:", b.count_arcs())
+print("  Writing to a_trim.dot...")
 b.write_dot("a_trim.dot")
 
+print("Removing event e2...")
 a.remove_events(['e2'])
+print("  Is deterministic...:", a.is_deterministic())
+print("  Set of states, X...:", a.X())
+print("  Set of events, E...:", a.E())
+print("  Arcs...............:", a.count_arcs())
+print("  Writing to a_non_deterministic.dot...")
 a.write_dot("a_non_deterministic.dot")
 
+print("Calculate deterministic equivalent...")
 b = a.deterministic_equivalent()
+print("  Is deterministic...:", b.is_deterministic())
+print("  Set of states, X...:", b.X())
+print("  Set of events, E...:", b.E())
+print("  Arcs...............:", b.count_arcs())
+print("  Write to a_deterministic_equivalent.dot...")
 b.write_dot("a_deterministic_equivalent.dot")
-
