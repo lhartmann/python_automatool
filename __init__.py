@@ -169,6 +169,11 @@ class Automaton:
 			if len(self._F[x][""]) == 0:
 				self._F[x].pop("")
 	
+	# Replaces all but selected events with the empty string,
+	# Result is usually non-deterministic.
+	def projection(self, Es):
+		remove_events(Automaton._flatten(self._E) - Automaton._flatten(Es));
+
 	# Returns the accessible part of the automaton
 	def Ac(self):
 		Xa = set(self._x0)
