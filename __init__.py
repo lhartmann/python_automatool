@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# (c) 2021 Lucas V. Hartmann, github.com/lhartmann
+# (c) 2023 Lucas V. Hartmann, github.com/lhartmann
 # License MIT
 
 import copy
@@ -112,7 +112,7 @@ class Automaton:
 			eee = eee.union(set(self._F[x].keys()))
 		return eee
 	
-	# Returns set of destinations a set of states and set of events
+	# Returns set of destinations from a set of states and set of events
 	def FFF(self, xxx, eee):
 		xxx = self.xxx_nd(xxx)
 		eee = Automaton._flatten(eee)
@@ -123,7 +123,7 @@ class Automaton:
 					Xr = Xr.union(self._F[x][e])
 		return self.xxx_nd(Xr)
 	
-	# Detereministic version of above, returns a single state
+	# Deterministic version of above, returns a single state
 	def F(self, x, e):
 		Xr = self.FFF(x,e)
 		if len(Xr) != 1:
@@ -146,7 +146,8 @@ class Automaton:
 				self._F[x].pop(e)
 		return self
 	
-	# Remove events replacig with empty string, may result in non-deterministic automaton
+	# Remove events replacing with empty string.
+	# Result is usually non-deterministic.
 	def remove_events(self, Ed):
 		# Adds empty transitions for uniformity
 		for x in self._X:
@@ -154,7 +155,7 @@ class Automaton:
 				self._F[x][""] = set()
 		
 		for e in Automaton._flatten(Ed):
-			# Rename events to empry string
+			# Rename events to empty string
 			if e in self._E:
 				self._E.pop(e)
 				self._E[""] = ""
@@ -168,6 +169,7 @@ class Automaton:
 			if len(self._F[x][""]) == 0:
 				self._F[x].pop("")
 	
+	# Returns the accessible part of the automaton
 	def Ac(self):
 		Xa = set(self._x0)
 		while True:
@@ -177,6 +179,7 @@ class Automaton:
 			Xa = Xa.union(Xan)
 		return self.copy().remove_states(set(self._X.keys()) - Xa)
 	
+	# Returns the co-accessible part of the automaton
 	def CoAc(self):
 		Xc = self.Xm()
 		added = True
