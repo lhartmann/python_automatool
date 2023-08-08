@@ -102,6 +102,9 @@ class Automaton:
 	
 	def Xm(self, mark="M"):
 		return set([ x for x in self._X if mark in self._X[x]])
+
+	def E(self):
+		return set(self._E.keys())
 	
 	# Returns enabled events for a state or a set of states.
 	def L(self, xxx):
@@ -111,7 +114,10 @@ class Automaton:
 		for x in xxx:
 			eee = eee.union(set(self._F[x].keys()))
 		return eee
-	
+
+	def count_arcs(self):
+		return sum([len(E) for x,E in self._F.items() ])
+
 	# Returns set of destinations from a set of states and set of events
 	def FFF(self, xxx, eee):
 		xxx = self.xxx_nd(xxx)
