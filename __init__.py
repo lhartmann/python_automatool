@@ -367,8 +367,8 @@ class Automaton:
 			f.write("}\n")
 	
 	# Gives an event priority over the others.
-	# In other words, if the event is enabled then make it the only one.
-	def prioritize(self,e):
+	# In other words, for every state where the event is enabled, make if the only enabled one.
+	def prioritize(self, e):
 		for x in self._F:
 			if e in self._F[x]:
 				self._F[x] = {e: self._F[x][e]}
