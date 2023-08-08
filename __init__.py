@@ -4,6 +4,7 @@
 
 import copy
 import pandas as pd
+from pandas_ods_reader import read_ods
 
 class Automaton:
 	def __init__(self):
@@ -48,7 +49,8 @@ class Automaton:
 	
 	@staticmethod
 	def read_ods(filename, sheet=None):
-		table = pd.read_excel(filename, sheet or 0, engine="ods", headers=False)
+		#table = pd.read_excel(filename, sheet or 0, engine="odf", header=None)
+		table = read_ods(filename, sheet or 0, headers=None)
 		return Automaton.parse(table)
 	
 	def copy(self): 
