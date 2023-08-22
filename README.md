@@ -80,13 +80,13 @@ m = n | o | p     # As an expression
 **Remove events**: Makes removed events non-observable, replacing them with the null-word. Generally result in a non-deterministic automaton.
 
 ```python
-a.remove_events(["e0", "e1"]) # Changes in-place
+b = a.remove_events(["e0", "e1"])
 ```
 
 **Remove states**: Removes states from an automaton. May make some states inaccessible.
 
 ```python
-a.remove_states(["x0", "x1"])  # Changes in-place
+b = a.remove_states(["x0", "x1"])
 ```
 
 **Deterministic equivalent**: Evaluates the automaton taking into considerations all null-word events, and events that can lead to multiple states. Returns an automaton that models the uncertainty between states A and B as a new state AB.
@@ -100,7 +100,7 @@ print(b.is_detetrministic()) # True
 **Prioritize event**: When describing software controllers, an action event will always take place before any other input check, in other words, it will be fired immediately when enabled. Priorizing an event will ensure that, on states where it is enabled, it is the only one enabled. Useful fom simplifying analysis, as it may reduce the number of accessible states.
 
 ```python
-a.prioritize('e6') # Changes in-place
+b = a.prioritize('e6')
 ```
 
 **Rename states**: State names are usally long after composition operations or deterministic-equivalent is obtained. States can be renamed by passing a function or a dictionary as a mapper.
@@ -108,13 +108,12 @@ a.prioritize('e6') # Changes in-place
 ```python
 # On parallel composition names are joined with '|'
 m = a | b | c
-# Using a dictionary (changes in-place)
-m.rename_states({
+# Using a dictionary
+n = m.rename_states({
     'a0|b1|c2': 's012',
     'a0|b3|c1': 's031'
 })
-# Using a callable lambda (changes in-place)
-m.rename_states(lambda s : s.replace('|', ''))
+# Using a callable lambda
+n = m.rename_states(lambda s : s.replace('|', ''))
 
 ```
-

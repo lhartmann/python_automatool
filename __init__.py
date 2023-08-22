@@ -138,48 +138,56 @@ class Automaton:
 		return Xr.pop()
 	
 	def remove_states(self, Xd):
+		r = self.copy()
+
 		# Remove deleted states and all transitions FROM them
 		for x in Xd:
-			self._X.pop(x)
-			self._F.pop(x)
+			r._X.pop(x)
+			r._F.pop(x)
+
 		# Remove transitions TO deleted states
-		for x in self._X:
+		for x in r._X:
 			rm = set()
-			for e in self._F[x]:
-				self._F[x][e] = self._F[x][e] - Xd
-				if len(self._F[x][e]) == 0:
+			for e in r._F[x]:
+				r._F[x][e] = r._F[x][e] - Xd
+				if len(r._F[x][e]) == 0:
 					rm.add(e)
 			for e in rm:
-				self._F[x].pop(e)
-		return self
+				r._F[x].pop(e)
+
+		return r
 	
 	# Remove events replacing with empty string.
 	# Result is usually non-deterministic.
 	def remove_events(self, Ed):
+		r = self.copy()
+
 		# Adds empty transitions for uniformity
-		for x in self._X:
-			if "" not in self._F[x]:
-				self._F[x][""] = set()
+		for x in r._X:
+			if "" not in r._F[x]:
+				r._F[x][""] = set()
 		
 		for e in Automaton._flatten(Ed):
 			# Rename events to empty string
-			if e in self._E:
-				self._E.pop(e)
-				self._E[""] = ""
+			if e in r._E:
+				r._E.pop(e)
+				r._E[""] = ""
 			# Move transitions from e to "".
-			for x in self._F:
-				if e in self._F[x]:
-					self._F[x][""] = self._F[x][""].union(self._F[x].pop(e))
-		
+			for x in r._F:
+				if e in r._F[x]:
+					r._F[x][""] = r._F[x][""].union(r._F[x].pop(e))
+
 		# Removes empty transitions
-		for x in self._F:
-			if len(self._F[x][""]) == 0:
-				self._F[x].pop("")
+		for x in r._F:
+			if len(r._F[x][""]) == 0:
+				r._F[x].pop("")
+
+		return r
 	
 	# Replaces all but selected events with the empty string,
 	# Result is usually non-deterministic.
 	def projection(self, Es):
-		remove_events(Automaton._flatten(self._E) - Automaton._flatten(Es));
+		return remove_events(Automaton._flatten(self._E) - Automaton._flatten(Es));
 
 	# Returns the accessible part of the automaton
 	def Ac(self):
@@ -376,23 +384,26 @@ class Automaton:
 	# Gives an event priority over the others.
 	# In other words, for every state where the event is enabled, make if the only enabled one.
 	def prioritize(self, e):
-		for x in self._F:
-			if e in self._F[x]:
-				self._F[x] = {e: self._F[x][e]}
+		r = self.copy()
+		for x in r._F:
+			if e in r._F[x]:
+				r._F[x] = {e: r._F[x][e]}
+		return r
 	
 	# Renames states based on a mapper, which may be a function or a dictionary.
 	def rename_states(self, mapper):
+		r = self.copy()
+
 		M = lambda x: mapper(x) if callable(mapper) else mapper[x] if x in mapper else x
 		F = {}
-		for x in self._F:
+		for x in r._F:
 			mx = M(x)
 			F[mx] = {}
-			for e in self._F[x]:
+			for e in r._F[x]:
 				F[mx][e] = set()
-				for tx in self._F[x][e]:
+				for tx in r._F[x][e]:
 					F[mx][e].add(M(tx))
-		self._F = F
-		
-		self._X = {M(x):p for (x,p) in self._X}
-		
-		self._x0 = set([ M(x) for x in self._x0 ])
+		r._F = F
+		r._X = {M(x):p for (x,p) in r._X}
+		r._x0 = set([ M(x) for x in r._x0 ])
+		return r
