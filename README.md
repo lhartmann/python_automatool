@@ -3,11 +3,15 @@ Automaton build and analysis tooling for python.
 
 # Quickstart
 
-On a Linux shell, do:
+Install using pip:
+```bash
+pip install automatool
+```
 
+Download and run example:
 ```bash
 git clone https://github.com/lhartmann/python_automatool automatool
-cp automatool/examples/01-basic.py .
+cd automatool/examples
 python3 01-basic.py
 ```
 

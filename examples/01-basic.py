@@ -3,7 +3,7 @@
 from automatool import Automaton
 
 print("Loading automaton...")
-a = Automaton.read_csv("automatool/examples/automaton/a.csv")
+a = Automaton.read_csv("automaton/a.csv")
 
 print("  Set of states, X...:", a.X())
 print("  Marked states, Xm..:", a.Xm())
