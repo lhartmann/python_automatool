@@ -332,7 +332,7 @@ class Automaton:
 					return False
 		return True
 	
-	def deterministic_equivalent(self, state_namer = lambda x: str(x)):
+	def deterministic_equivalent(self, state_namer = lambda x: " ".join(sorted(list(x)))):
 		r = Automaton()
 		add = self.xxx_nd(self._x0) # Set of states
 		r._x0 = { state_namer(add) }
