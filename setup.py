@@ -3,13 +3,13 @@ from distutils.core import setup
 setup(
   name = 'automatool',
   packages = ['automatool'],
-  version = '0.1.6',
+  version = '0.1.7',
   license='MIT',
   description = 'Automaton analysis and maniplation tool',
   author = 'Lucas Vinicius Hartmann',
   author_email = 'lucas.hartmann@gmail.com',
   url = 'https://github.com/lhartmann/python_automatool',
-  download_url = 'https://github.com/lhartmann/python_automatool/archive/0.1.6.tar.gz',
+  download_url = 'https://github.com/lhartmann/python_automatool/archive/0.1.7.tar.gz',
   keywords = ['discrete events', 'automaton', 'state machine'],
   install_requires=[ 'pandas' ],
   classifiers=[
