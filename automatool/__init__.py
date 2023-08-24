@@ -134,7 +134,7 @@ class Automaton:
 	def F(self, x, e):
 		Xr = self.FFF(x,e)
 		if len(Xr) != 1:
-			raise Exception(f"F({x},{e}) should return exactly one state.")
+			raise Exception(f"F({x},{e}) is only defined for deterministic automata.")
 		return Xr.pop()
 	
 	def remove_states(self, Xd):
