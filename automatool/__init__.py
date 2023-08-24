@@ -42,17 +42,21 @@ class Automaton:
 	
 	@staticmethod
 	def read_csv(filename):
-		table = pd.read_csv(filename, sep='\t', header=None)
+		table = pd.read_csv(filename, sep='\t', header=None, dtype=str)
 		table = table.fillna("")
 		return Automaton.parse(table)
 	
 	@staticmethod
-	def read_ods(filename, sheet=None):
-		table = pd.read_excel(filename, sheet or 0, header=None)
+	def read_excel(filename, sheet=None):
+		table = pd.read_excel(filename, sheet or 0, header=None, dtype=str)
 		table = table.fillna("")
 		return Automaton.parse(table)
-	
-	def copy(self): 
+
+	@staticmethod
+	def read_ods(filename, sheet=None):
+		return Automaton.read_excel(filename, sheet)
+
+	def copy(self):
 		return copy.deepcopy(self)
 	
 	@staticmethod
