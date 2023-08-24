@@ -197,7 +197,7 @@ class Automaton:
 			if len(Xan - Xa) == 0:
 				break
 			Xa = Xa.union(Xan)
-		return self.copy().remove_states(set(self._X.keys()) - Xa)
+		return self.remove_states(set(self._X.keys()) - Xa)
 	
 	# Returns the co-accessible part of the automaton
 	def CoAc(self):
@@ -210,7 +210,7 @@ class Automaton:
 				if len(Xc.intersection(dest)) != 0:
 					added = True
 					Xc.add(x)
-		return self.copy().remove_states(set(self._X.keys()) - Xc)
+		return self.remove_states(set(self._X.keys()) - Xc)
 	
 	def trim(self):
 		return self.Ac().CoAc()
