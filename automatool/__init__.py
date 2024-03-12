@@ -376,11 +376,23 @@ class Automaton:
 			f.write("State_t update(State_t x) {\n")
 			f.write("\tswitch(x) {\n")
 			for x in self._F:
+				L = self.L(x)
 				f.write(f"\tcase ({sanitize(x)}):"+" {\n")
 				for e in self._F[x]:
-					f.write(f"\t\tif (Event_{sanitize(e)}()) return {sanitize(self._F[x][e].copy().pop())};\n")
+					nx = next(iter(self._F[x][e]))
+					nL = self.L(nx)
+					f.write(f"\t\tif (Event_{sanitize(e)}()) "+"{\n")
+					for ed in L - nL:
+						f.write(f"\t\t\tEvent_Disable_{sanitize(ed)}();\n")
+					for ee in nL - L:
+						f.write(f"\t\t\tEvent_Enable_{sanitize(ee)}();\n")
+					f.write(f"\t\t\treturn {sanitize(self._F[x][e].copy().pop())};\n")
+					f.write("\t\t}\n")
 				f.write(f"\t\tbreak;\n\n")
-			f.write(f"\tdefault: return {sanitize(self._x0.copy().pop())};\n")
+			f.write(f"\tdefault:\n");
+			for ed in self.L(self._x0):
+				f.write(f"\t\tEvent_Enable_{sanitize(ed)}();\n")
+			f.write(f"\t\treturn {sanitize(self._x0.copy().pop())};\n")
 			f.write("\t}\n")
 			f.write("\treturn x;\n")
 			f.write("}\n")

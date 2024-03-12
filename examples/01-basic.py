@@ -35,6 +35,7 @@ print("  Set of events, E...:", b.E())
 print("  Arcs...............:", b.count_arcs())
 print("  Writing to 04_trim.dot...")
 b.write_dot("04_trim.dot")
+b.write_cpp("04_trim.cpp")
 
 print("Removing event e2...")
 b = a.remove_events(['e2'])
