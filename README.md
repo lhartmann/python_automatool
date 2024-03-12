@@ -67,24 +67,30 @@ b = a.CoAc()
 b = a.trim()
 ```
 
-**Cross-parallel, or fully-parallel**: Returns an automata where any events can only happen if exist and enabled on both sources. Private events existing on a single source are removed and blocked.
+**Cross-parallel, or fully-parallel**: Returns an automata where any events can only happen if exist and enabled on both sources. Private events existing on a single source are removed and blocked. This algorithm will always return a trim automaton.
 
 ```python
 c = a.cross(b) # As a method
 m = n * o * p  # As an expression
 ```
 
-**Parallel**: Returns an automata where common events can only happen if exist and enabled on both sources. Private events existing on a single source are preserved, and do not affect the other automaton.
+**Parallel**: Returns an automata where common events can only happen if exist and enabled on both sources. Private events existing on a single source are preserved, and do not affect the other automaton. This algorithm will always return a trim automaton.
 
 ```python
 c = a.parallel(b) # As a method
 m = n | o | p     # As an expression
 ```
 
-**Remove events**: Makes removed events non-observable, replacing them with the null-word. Generally result in a non-deterministic automaton.
+**Remove events**: Makes removed events non-observable, replacing them with the null-word. Generally results in a non-deterministic automaton.
 
 ```python
 b = a.remove_events(["e0", "e1"])
+```
+
+**Projection**: Retains only the specified subset of events, replacing all others with the null-word. Generally results in a non-deterministic automaton.
+
+```python
+b = a.projection(["e2", "e3"])
 ```
 
 **Remove states**: Removes states from an automaton. May make some states inaccessible.
@@ -93,7 +99,7 @@ b = a.remove_events(["e0", "e1"])
 b = a.remove_states(["x0", "x1"])
 ```
 
-**Deterministic equivalent**: Evaluates the automaton taking into considerations all null-word events, and events that can lead to multiple states. Returns an automaton that models the uncertainty between states A and B as a new state AB.
+**Deterministic equivalent**: Evaluates the automaton taking into considerations all null-word events, and events that can lead to multiple states. Returns an automaton that models the uncertainty between states A and B as a new state AB. This algorithm will always return a trim automaton.
 
 ```python
 print(a.is_detetrministic()) # False
@@ -119,5 +125,4 @@ n = m.rename_states({
 })
 # Using a callable lambda
 n = m.rename_states(lambda s : s.replace('|', ''))
-
 ```
